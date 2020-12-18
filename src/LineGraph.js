@@ -69,7 +69,7 @@ function LineGraph({casesType = "cases"}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
+      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=10")
         .then((response) => response.json())
         .then((data) => {
           const chartData = buildChartData(data, casesType);
@@ -99,7 +99,7 @@ function LineGraph({casesType = "cases"}) {
   };
 
   return (
-    <div>
+    <div className="app__graph">
       {data?.length > 0 && (
         <Line
           data={{

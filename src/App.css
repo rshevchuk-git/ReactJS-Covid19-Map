@@ -5,6 +5,7 @@ body {
 
 h1 {
   margin: 0;
+  color: #cc1034;
 }
 
 h3:first-of-type {
@@ -26,16 +27,23 @@ h3:last-of-type {
   flex: 0.9;
 }
 
-/* .app__map {
-  height: 66%;
-} */
 .app__right {
+  margin-bottom: 0 !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 95%;
+  height: 98%;
 }
 
+.app_right__chart {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__graph {
+  flex-grow: 0.5;
+}
 .app__right .MuiCardContent-root:last-child {
   padding-bottom: 16px;
 }
