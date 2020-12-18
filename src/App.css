@@ -1,5 +1,6 @@
 body {
   background-color: #f5f6fa;
+  font-family: "Nunito", sans-serif !important;
 }
 
 h1 {
@@ -12,7 +13,7 @@ h3:first-of-type {
 }
 
 h3:last-of-type {
-  margin-bottom: 21px;
+  margin-bottom: 0.5rem;
 }
 
 .app {
@@ -25,6 +26,16 @@ h3:last-of-type {
   flex: 0.9;
 }
 
+/* .app__map {
+  height: 66%;
+} */
+.app__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+}
+
 .app__right .MuiCardContent-root:last-child {
   padding-bottom: 16px;
 }
@@ -32,14 +43,21 @@ h3:last-of-type {
 .app__header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   justify-content: space-between;
+}
+
+.app__logo {
+  width: 2rem;
+  position: relative;
+  top: 5px;
 }
 
 .app__dropdown .MuiSelect-outlined.MuiSelect-outlined {
   padding: 8.5px 37px 8.5px 1rem;
-  width: 200px;
+  width: 15.98rem;
   background-color: white;
+  outline: none;
 }
 
 .app__stats {

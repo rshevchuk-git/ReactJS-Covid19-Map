@@ -4,15 +4,15 @@ import numeral from "numeral";
 const casesTypeColors = {
   cases: {
     hex: "#CC1034",
-    multiplier: 220,
+    multiplier: 250,
   },
   recovered: {
     hex: "#7dd71d",
-    multiplier: 1200,
+    multiplier: 310,
   },
   deaths: {
-    hex: "#fb4443",
-    multiplier: 2000,
+    hex: "#323232",
+    multiplier: 1000,
   },
 };
 
@@ -26,7 +26,7 @@ export const prettyPrintStat = (stat) => {
   return stat ? `+${numeral(stat).format("0.0a")}` : "+0";
 };
 
-export const showDataOnMap = (data, casesType = "cases") =>
+export const showDataOnMap = (data, casesType = "cases", setCountryInfo) =>
   data.map((country) => {
     return (
       <Circle
@@ -37,6 +37,7 @@ export const showDataOnMap = (data, casesType = "cases") =>
         radius={
           Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
         }
+        onclick={() => setCountryInfo(country)}
       >
         <Popup className="infoContainer">
           <div>

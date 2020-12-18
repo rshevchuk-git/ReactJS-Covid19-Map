@@ -5,16 +5,15 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
-import {useState, useEffect} from "react";
+import "leaflet/dist/leaflet.css";
+import numeral from "numeral";
+import {useEffect, useState} from "react";
 import "./App.css";
 import InfoBox from "./InfoBox";
 import LineGraph from "./LineGraph";
 import Map from "./Map";
 import Table from "./Table";
-import {prettyPrintStat, showDataOnMap, sortData} from "./utils";
-import numeral from "numeral";
-import {MapContainer} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import {prettyPrintStat, sortData} from "./utils";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -22,11 +21,11 @@ function App() {
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
   const [mapCountries, setMapCountries] = useState([]);
-  const [mapProps, setMapProps] = useState({
-    position: {lat: 48.80746, lng: 18.4796},
-    zoom: 3,
-  });
   const [casesType, setCasesType] = useState("cases");
+  const [mapProps, setMapProps] = useState({
+    position: {lat: 28.80746, lng: 18.4796},
+    zoom: 2,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,10 +70,12 @@ function App() {
         setSelectedCountry(countryCode);
         setCountryInfo(data);
 
-        setMapProps({
-          position: [data.countryInfo.lat, data.countryInfo.long],
-          zoom: 4,
-        });
+        countryCode !== "worldwide"
+          ? setMapProps({
+              position: [data.countryInfo.lat, data.countryInfo.long],
+              zoom: 5,
+            })
+          : setMapProps({position: {lat: 28.80746, lng: 18.4796}, zoom: 2});
       });
   };
 
@@ -82,7 +83,10 @@ function App() {
     <div className="app">
       <div className="app__left">
         <div className="app__header">
-          <h1>COVID-19 TRACKER</h1>
+          <h1>
+            C<img src="logo.png" className="app__logo" alt="logo" />
+            VID-19 TRACKER
+          </h1>
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
@@ -126,24 +130,25 @@ function App() {
           ></InfoBox>
         </div>
 
-        <Card className="map">
-          <MapContainer center={mapProps.position} zoom={3}>
-            <Map
-              countries={mapCountries}
-              location={mapProps}
-              casesType={casesType}
-            />
-            {showDataOnMap(mapCountries, casesType)}
-          </MapContainer>
-        </Card>
+        <div className="app__map">
+          <Map
+            location={mapProps}
+            countries={mapCountries}
+            casesType={casesType}
+            setCountryInfo={setCountryInfo}
+          />
+        </div>
       </div>
-      <Card className="app__right">
-        <CardContent>
-          <h3>Live Cases by Country</h3>
-          <Table countries={tableData} />
-
-          <h3>Worldwide new {casesType}</h3>
-          <LineGraph casesType={casesType} />
+      <Card>
+        <CardContent className="app__right">
+          <div className="app__right__table">
+            <h3>Live Cases by Country</h3>
+            <Table countries={tableData} />
+          </div>
+          <div className="app_right__chart">
+            <h3>Worldwide new {casesType}</h3>
+            <LineGraph casesType={casesType} />
+          </div>
         </CardContent>
       </Card>
     </div>

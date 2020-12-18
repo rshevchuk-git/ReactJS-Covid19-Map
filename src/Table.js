@@ -3,8 +3,9 @@ import numeral from "numeral";
 import "./Table.css";
 
 function Table({countries}) {
+  const parentHeight = window.innerHeight - 310;
   return (
-    <div className="table">
+    <div className="table" style={{height: parentHeight}}>
       <table>
         <tbody>
           {countries.map(({country, cases}, key) => (

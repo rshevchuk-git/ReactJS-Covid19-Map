@@ -1,5 +1,5 @@
 .map {
-  height: 31.5rem;
+  /* height: 70vh; */
   background-color: white;
   padding: 1rem;
   border-radius: 4px;
@@ -17,6 +17,7 @@
   background-size: cover;
   border-radius: 8px;
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  margin: 1rem 0;
 }
 
 .infoConfirmed,

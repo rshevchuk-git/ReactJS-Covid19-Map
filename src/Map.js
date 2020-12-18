@@ -1,22 +1,32 @@
-import React, {useEffect} from "react";
-import {TileLayer, useMap} from "react-leaflet";
+import React from "react";
+import {Map as LeafletMap, TileLayer} from "react-leaflet";
 import "./Map.css";
 import {showDataOnMap} from "./utils";
 
-function Map({location, countries, casesType}) {
-  const map = useMap();
+function Map({location, countries, casesType, setCountryInfo}) {
+  const parentHeight = window.innerHeight - 290;
 
-  useEffect(() => {
-    map.setView(location.position);
-  }, [location]);
+  const showGlobalInfo = async () => {
+    await fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => setCountryInfo(data));
+  };
 
   return (
-    <>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-    </>
+    <div className="map">
+      <LeafletMap
+        style={{height: parentHeight}}
+        center={location.position}
+        zoom={location.zoom}
+        onclick={showGlobalInfo}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {showDataOnMap(countries, casesType, setCountryInfo)}
+      </LeafletMap>
+    </div>
   );
 }
 
