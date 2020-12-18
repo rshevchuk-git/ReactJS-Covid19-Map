@@ -1,5 +1,5 @@
 .map {
-  height: 32.5rem;
+  height: 31.5rem;
   background-color: white;
   padding: 1rem;
   border-radius: 4px;
@@ -12,9 +12,11 @@
 }
 
 .infoFlag {
-  height: 55px;
+  height: 4rem;
+  background-position: center;
   background-size: cover;
   border-radius: 8px;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
 }
 
 .infoConfirmed,

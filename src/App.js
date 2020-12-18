@@ -11,7 +11,8 @@ import InfoBox from "./InfoBox";
 import LineGraph from "./LineGraph";
 import Map from "./Map";
 import Table from "./Table";
-import {circlesDataOnMap, sortData} from "./utils";
+import {prettyPrintStat, showDataOnMap, sortData} from "./utils";
+import numeral from "numeral";
 import {MapContainer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -25,6 +26,7 @@ function App() {
     position: {lat: 48.80746, lng: 18.4796},
     zoom: 3,
   });
+  const [casesType, setCasesType] = useState("cases");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,25 +101,39 @@ function App() {
 
         <div className="app__stats">
           <InfoBox
+            textColor="red"
+            active={casesType === "cases" ? casesType : false}
+            onClick={(e) => setCasesType("cases")}
             title="Coronavirus cases"
-            cases={countryInfo.todayCases}
-            total={countryInfo.cases}
+            cases={prettyPrintStat(countryInfo.todayCases)}
+            total={numeral(countryInfo.cases).format("0,0")}
           ></InfoBox>
           <InfoBox
+            textColor="green"
+            active={casesType === "recovered" ? casesType : false}
+            onClick={(e) => setCasesType("recovered")}
             title="Recoveries"
-            cases={countryInfo.todayRecovered}
-            total={countryInfo.recovered}
+            cases={prettyPrintStat(countryInfo.todayRecovered)}
+            total={numeral(countryInfo.recovered).format("0,0")}
           ></InfoBox>
           <InfoBox
+            textColor="black"
+            active={casesType === "deaths" ? casesType : false}
+            onClick={(e) => setCasesType("deaths")}
             title="Deaths"
-            cases={countryInfo.todayDeaths}
-            total={countryInfo.deaths}
+            cases={prettyPrintStat(countryInfo.todayDeaths)}
+            total={numeral(countryInfo.deaths).format("0,0")}
           ></InfoBox>
         </div>
 
         <Card className="map">
           <MapContainer center={mapProps.position} zoom={3}>
-            <Map countries={mapCountries} location={mapProps} />
+            <Map
+              countries={mapCountries}
+              location={mapProps}
+              casesType={casesType}
+            />
+            {showDataOnMap(mapCountries, casesType)}
           </MapContainer>
         </Card>
       </div>
@@ -126,8 +142,8 @@ function App() {
           <h3>Live Cases by Country</h3>
           <Table countries={tableData} />
 
-          <h3>Worldwide New Cases</h3>
-          <LineGraph />
+          <h3>Worldwide new {casesType}</h3>
+          <LineGraph casesType={casesType} />
         </CardContent>
       </Card>
     </div>

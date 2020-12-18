@@ -1,3 +1,49 @@
 h2 {
   margin: 0.4rem 0;
 }
+
+.infoBox {
+  flex: 1;
+  cursor: pointer;
+}
+
+.infoBox:not(:last-child) {
+  margin-right: 15px;
+}
+
+.infoBox--recovered {
+  border-top: 10px solid #7dd71d;
+}
+
+.infoBox--cases {
+  border-top: 10px solid #cc1034;
+}
+
+.infoBox--deaths {
+  border-top: 10px solid rgb(50, 50, 50);
+}
+
+.text-green {
+  color: #7dd71d;
+}
+
+.text-red {
+  color: #cc1034;
+}
+
+.text-black {
+  color: rgb(50, 50, 50);
+}
+
+.infoBox__cases {
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.infoBox__total {
+  color: #6c757d;
+  font-weight: 700 !important;
+  font-size: 0.8rem;
+  margin-top: 15px;
+}

@@ -1,7 +1,8 @@
 .table {
   overflow: scroll;
-  height: 465px;
+  height: 444px;
   color: #6a5d5d;
+  margin-bottom: 2rem;
   background-color: white;
 }
 
