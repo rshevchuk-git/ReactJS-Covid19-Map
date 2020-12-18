@@ -1,8 +1,12 @@
 .table {
   overflow: scroll;
-  height: 400px;
+  height: 465px;
   color: #6a5d5d;
   background-color: white;
+}
+
+table {
+  width: 100%;
 }
 
 .table tr {

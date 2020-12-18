@@ -2,6 +2,19 @@ body {
   background-color: #f5f6fa;
 }
 
+h1 {
+  margin: 0;
+}
+
+h3:first-of-type {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+h3:last-of-type {
+  margin-bottom: 21px;
+}
+
 .app {
   display: flex;
   justify-content: space-evenly;
@@ -9,7 +22,11 @@ body {
 }
 
 .app__left {
-  flex: 0.7;
+  flex: 0.9;
+}
+
+.app__right .MuiCardContent-root:last-child {
+  padding-bottom: 16px;
 }
 
 .app__header {
@@ -19,9 +36,23 @@ body {
   justify-content: space-between;
 }
 
+.app__dropdown .MuiSelect-outlined.MuiSelect-outlined {
+  padding: 8.5px 37px 8.5px 1rem;
+  width: 200px;
+  background-color: white;
+}
+
 .app__stats {
   display: flex;
   justify-content: space-between;
+}
+
+.app__stats .MuiCardContent-root {
+  padding: 16px !important;
+}
+
+.map .leaflet-container {
+  height: 100%;
 }
 
 @media (max-width: 990px) {

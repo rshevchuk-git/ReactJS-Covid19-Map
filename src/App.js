@@ -11,7 +11,8 @@ import InfoBox from "./InfoBox";
 import LineGraph from "./LineGraph";
 import Map from "./Map";
 import Table from "./Table";
-import {sortData} from "./utils";
+import {circlesDataOnMap, sortData} from "./utils";
+import {MapContainer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 function App() {
@@ -19,11 +20,20 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
+  const [mapCountries, setMapCountries] = useState([]);
+  const [mapProps, setMapProps] = useState({
+    position: {lat: 48.80746, lng: 18.4796},
+    zoom: 3,
+  });
 
-  useEffect(async () => {
-    await fetch("https://disease.sh/v3/covid-19/all")
-      .then((response) => response.json())
-      .then((data) => setCountryInfo(data));
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch("https://disease.sh/v3/covid-19/all")
+        .then((response) => response.json())
+        .then((data) => setCountryInfo(data));
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -38,6 +48,7 @@ function App() {
 
           const sortedData = sortData(data);
           setTableData(sortedData);
+          setMapCountries(data);
           setCountries(countries);
         });
     };
@@ -57,6 +68,11 @@ function App() {
       .then((data) => {
         setSelectedCountry(countryCode);
         setCountryInfo(data);
+
+        setMapProps({
+          position: [data.countryInfo.lat, data.countryInfo.long],
+          zoom: 4,
+        });
       });
   };
 
@@ -72,8 +88,10 @@ function App() {
               value={selectedCountry}
             >
               <MenuItem value="worldwide">Worldwide</MenuItem>
-              {countries.map((country) => (
-                <MenuItem value={country.value}>{country.name}</MenuItem>
+              {countries.map((country, key) => (
+                <MenuItem key={key} value={country.value}>
+                  {country.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -97,7 +115,11 @@ function App() {
           ></InfoBox>
         </div>
 
-        <Map />
+        <Card className="map">
+          <MapContainer center={mapProps.position} zoom={3}>
+            <Map countries={mapCountries} location={mapProps} />
+          </MapContainer>
+        </Card>
       </div>
       <Card className="app__right">
         <CardContent>
