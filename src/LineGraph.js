@@ -34,6 +34,7 @@ const options = {
     yAxes: [
       {
         gridLines: {
+          drawBorder: false,
           display: false,
         },
         ticks: {

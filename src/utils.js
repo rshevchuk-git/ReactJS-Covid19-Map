@@ -47,13 +47,22 @@ export const showDataOnMap = (data, casesType = "cases", setCountryInfo) =>
             ></div>
             <div className="infoName">{country.country}</div>
             <div className="infoConfirmed">
-              Cases: {numeral(country.cases).format("0,0")}
+              Cases:{" "}
+              <strong style={{color: "#555"}}>
+                {numeral(country.cases).format("0,0")}
+              </strong>
             </div>
             <div className="infoRecovered">
-              Recovered: {numeral(country.recovered).format("0,0")}
+              Recovered:{" "}
+              <strong style={{color: "#555"}}>
+                {numeral(country.recovered).format("0,0")}
+              </strong>
             </div>
             <div className="infoDeaths">
-              Deaths: {numeral(country.deaths).format("0,0")}
+              Deaths:{" "}
+              <strong style={{color: "#555"}}>
+                {numeral(country.deaths).format("0,0")}
+              </strong>
             </div>
           </div>
         </Popup>

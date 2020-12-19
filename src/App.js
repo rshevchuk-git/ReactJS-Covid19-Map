@@ -1,10 +1,5 @@
-import {
-  Card,
-  CardContent,
-  FormControl,
-  MenuItem,
-  Select,
-} from "@material-ui/core";
+import {Card, CardContent, makeStyles, TextField} from "@material-ui/core";
+import {Autocomplete} from "@material-ui/lab";
 import "leaflet/dist/leaflet.css";
 import numeral from "numeral";
 import {useEffect, useState} from "react";
@@ -15,7 +10,25 @@ import Map from "./Map";
 import Table from "./Table";
 import {prettyPrintStat, sortData} from "./utils";
 
+const useStyles = makeStyles(() => ({
+  inputRoot: {
+    color: "#cc1034",
+    fontWeight: "bold",
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(118, 118, 118, 0.3)",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(118, 118, 118, 0.3);",
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(118, 118, 118, 0.3)",
+      borderWidth: 1,
+    },
+  },
+}));
+
 function App() {
+  const classes = useStyles();
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
@@ -56,11 +69,13 @@ function App() {
     getCountriesData();
   }, []);
 
-  const onCountryChange = async (event) => {
-    const countryCode = event.target.value;
+  const onCountryChange = async (event, country) => {
+    const countryCode = country?.value;
+
+    console.log(countryCode);
 
     const url =
-      countryCode === "worldwide"
+      !countryCode || countryCode === "worldwide"
         ? "https://disease.sh/v3/covid-19/all"
         : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
 
@@ -70,7 +85,7 @@ function App() {
         setSelectedCountry(countryCode);
         setCountryInfo(data);
 
-        countryCode !== "worldwide"
+        countryCode && countryCode !== "worldwide"
           ? setMapProps({
               position: [data.countryInfo.lat, data.countryInfo.long],
               zoom: 5,
@@ -87,20 +102,26 @@ function App() {
             C<img src="logo.png" className="app__logo" alt="logo" />
             VID-19 TRACKER
           </h1>
-          <FormControl className="app__dropdown">
-            <Select
-              variant="outlined"
-              onChange={onCountryChange}
-              value={selectedCountry}
-            >
-              <MenuItem value="worldwide">Worldwide</MenuItem>
-              {countries.map((country, key) => (
-                <MenuItem key={key} value={country.value}>
-                  {country.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+
+          <Autocomplete
+            id="combo-box-demo"
+            classes={classes}
+            size="small"
+            options={countries}
+            getOptionLabel={(country) => country.name || ""}
+            onChange={onCountryChange}
+            // value={selectedCountry}
+            style={{
+              backgroundColor: "#fff",
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select country"
+                variant="outlined"
+              />
+            )}
+          />
         </div>
 
         <div className="app__stats">
@@ -139,7 +160,7 @@ function App() {
           />
         </div>
       </div>
-      <Card>
+      <Card className="card">
         <CardContent className="app__right">
           <div className="app__right__table">
             <h3>Live Cases by Country</h3>
